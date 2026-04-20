@@ -1,9 +1,0 @@
-setup.py
-nonparam_safe/__init__.py
-nonparam_safe/tests.py
-nonparam_safe/utils.py
-nonparam_safe.egg-info/PKG-INFO
-nonparam_safe.egg-info/SOURCES.txt
-nonparam_safe.egg-info/dependency_links.txt
-nonparam_safe.egg-info/requires.txt
-nonparam_safe.egg-info/top_level.txt

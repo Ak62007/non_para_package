@@ -4,7 +4,6 @@ import pandas as pd
 def safe_prepare_data(x, y=None, paired=False, drop_nans=True):
     """Validates inputs, converts to numpy arrays, and handles missing values."""
     
-    # Convert to numpy arrays
     x = np.asarray(x, dtype=float)
     if y is not None:
         y = np.asarray(y, dtype=float)
@@ -12,7 +11,6 @@ def safe_prepare_data(x, y=None, paired=False, drop_nans=True):
     # Handle NaNs
     if drop_nans:
         if y is not None and paired:
-            # For paired tests, drop the pair if either is NaN
             mask = ~np.isnan(x) & ~np.isnan(y)
             x = x[mask]
             y = y[mask]
@@ -24,7 +22,6 @@ def safe_prepare_data(x, y=None, paired=False, drop_nans=True):
         if np.isnan(x).any() or (y is not None and np.isnan(y).any()):
             raise ValueError("Input contains NaNs and drop_nans is set to False.")
 
-    # Size validation
     if len(x) == 0 or (y is not None and len(y) == 0):
         raise ValueError("Array is empty after dropping NaNs.")
         

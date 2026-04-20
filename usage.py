@@ -1,22 +1,22 @@
 import numpy as np
-import nonparam_safe as nps
+import nonparam_safe.tests as nps
 
-# 1. Create some messy data (includes NaNs to test the safety wrappers)
+# 1. Create messy data (includes NaNs to test safety wrappers)
+#
 group_a = [12.5, 14.1, np.nan, 15.2, 11.9, 13.8, 14.5]
 group_b = [10.1, 11.2, 9.8, 12.0, np.nan, 10.5, 11.1]
 
 # 2. Independent 2-Sample Test (Mann-Whitney)
+# The wrapper automatically drops NaNs independently for A and B
 print("--- Mann-Whitney U Test ---")
 mw_result = nps.mann_whitney_test(group_a, group_b)
 print(mw_result)
-# The wrapper automatically drops NaNs independently for A and B
 
 # 3. Paired Tests (Wilcoxon and Sign Test)
-# Let's say group_a and group_b are before/after measurements
+# Automatically drops the entire PAIR if either A or B is NaN
 print("\n--- Paired Wilcoxon Test ---")
 paired_wilcoxon = nps.paired_test(group_a, group_b, method='wilcoxon')
 print(paired_wilcoxon)
-# The wrapper automatically drops the entire PAIR if either A or B is NaN
 
 print("\n--- Paired Sign Test ---")
 paired_sign = nps.paired_test(group_a, group_b, method='sign')
@@ -27,3 +27,11 @@ print(paired_sign)
 print("\n--- Quantile (Median) Test ---")
 median_test = nps.quantile_test(group_a, q=0.5, test_value=13.0)
 print(median_test)
+
+# 5. Robustness Check: Tie-Heavy Data
+# Validates the custom tie-correction logic
+tie_data_1 = [10, 10, 11, 12, 12, 12]
+tie_data_2 = [12, 12, 13, 14, 14, 15]
+print("\n--- Mann-Whitney U with Heavy Ties ---")
+tie_test = nps.mann_whitney_test(tie_data_1, tie_data_2)
+print(tie_test)
